@@ -1,0 +1,17 @@
+{
+    "version": "1.0.0",
+    "configurations": [
+        {
+            "name": "Запуск программы",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/program",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "lldb" // Используется для macOS
+        }
+    ]
+}
