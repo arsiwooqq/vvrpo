@@ -11,7 +11,9 @@
                 "-g",
                 "-std=c++17",
                 "main.cpp",
-                "user.cpp",
+                "User/User.cpp",
+                "User/Greeting.cpp",
+                "Menu/Menu.cpp",
                 "-o",
                 "program"
             ],

@@ -6,9 +6,6 @@
 #include <functional>
 #include "User.h"
 
-
-const std::string USER_DATABASE = "user_database.txt";
-
 /**
  * Получение списка пользователей в виде вектора
  */
@@ -93,17 +90,21 @@ std::string hashPassword(std::string password, std::string salt) {
  * Роль либо user, либо admin
  */
 void regUser(std::string login, std::string password, std::string role) {
-    if (login.size() < 8) {
-        throw std::string{"Login cannot be shorter than 8 characters!"};
+    if (!isExist(login)) {
+        if (login.size() < 8) {
+            throw std::string{"Login cannot be shorter than 8 characters!"};
+        }
+        if (password.size() < 8) {
+            throw std::string{"Password cannot be shorter than 8 characters!"};
+        }
+        std::ofstream File(USER_DATABASE, std::ios::app);
+        std::string salt = generateSalt(32);
+        std::string hashedPassword = hashPassword(password, salt);
+    
+        File << login << " " << hashedPassword << " " << salt << " " << role << " " << "unactive" << std::endl;
+    } else {
+        throw std::string{"This login already exists!"};
     }
-    if (password.size() < 8) {
-        throw std::string{"Password cannot be shorter than 8 characters!"};
-    }
-    std::ofstream File(USER_DATABASE, std::ios::app);
-    std::string salt = generateSalt(32);
-    std::string hashedPassword = hashPassword(password, salt);
-
-    File << login << " " << hashedPassword << " " << salt << " " << role << " " << "unactive" << std::endl;
 }
 
 /**

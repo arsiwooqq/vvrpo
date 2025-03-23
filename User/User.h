@@ -41,6 +41,11 @@ struct Session {
     }
 };
 
+const std::string USER_DATABASE = "user_database.txt";
 std::vector <User> getUsers();
 Session authUser (std::string login, std::string password);
+std::string generateSalt(int length);
+std::string hashPassword(std::string password, std::string salt);
 void regUser(std::string login, std::string password, std::string role);
+void regFirstUser(std::string login, std::string password);
+bool fileExists(std::string file);
