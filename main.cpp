@@ -28,8 +28,9 @@ int main() {
 
                 try {
                     user = authUser(login, password);
+                    std::cout << "Welcome, " << user.login << "!" << std::endl;
                 } catch (std::string e) {
-                    std::cout << e;
+                    std::cout << e << std::endl;
                 }
                 break;
             case 2:

@@ -39,7 +39,7 @@ std::vector <User> getUsers() {
  * false – не существует
  */
 bool isExist(std::string login) {
-    std::vector <User> users;
+    std::vector <User> users = getUsers();
     for (User user : users) {
         if (user.login == login) {
             return true;
@@ -54,7 +54,7 @@ bool isExist(std::string login) {
  * возвращает объект пользователя или выбрасывает ошибку
  */
 User getUser(std::string login) {
-    std::vector <User> users;
+    std::vector <User> users = getUsers();
     for (User user : users) {
         if (user.login == login) {
             return user;
@@ -117,9 +117,7 @@ Session authUser (std::string login, std::string password) {
         std::string hashedPassword = hashPassword(password, user.salt);
         if (user.password == hashedPassword) {
             return Session(user.login, user.role, user.access);
-        } else {
-            throw std::string{"Login or password is not correct!"};
         }
-    } 
-    throw std::string{"User dose not exist!"};
+    }
+    throw std::string{"Login or password is not correct!"};
 }
