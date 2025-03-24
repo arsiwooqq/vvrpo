@@ -2,6 +2,10 @@
 #include "Menu.h"
 #include "../User/User.h"
 
+/**
+ * Функция для ввода выбора пользователем
+ * Защищена от некорректного ввода
+ */
 void enterChoice(int& choice) {
     std::cin >> choice;
     if (std::cin.fail()) {
@@ -11,6 +15,9 @@ void enterChoice(int& choice) {
     }
 }
 
+/**
+ * Меню для авторизации 
+ */
 void loginMenu(int& choice) {
     std::cout << "Menu:" << std::endl;
     std::cout << "1. Login" << std::endl;
@@ -20,6 +27,9 @@ void loginMenu(int& choice) {
     enterChoice(choice);
 }
 
+/**
+ * Функция ввода логина и пароля
+ */
 void enterLoginAndPassword(std::string& login, std::string& password) {
     std::cout << "Enter login: " ;
     std::cin >> login;
@@ -28,6 +38,9 @@ void enterLoginAndPassword(std::string& login, std::string& password) {
     std::cout << std::endl;
 }
 
+/**
+ * Функция выбора роли при регистрации
+ */
 void selectRole(std::string& role) {
     do {
         int choice;
@@ -46,14 +59,20 @@ void selectRole(std::string& role) {
             default:
                 std::cout << "Enter correct role!" << std::endl;
         }
-    } while (role != "user" || role != "admin");
+    } while (role != "user" && role != "admin");
 }
 
+/**
+ * Функция приветствия (при успешной авторизации)
+ */
 void welcome(Session currentSession) {
     std::cout << "Welcome, " << currentSession.login << "!" << std::endl;
     std::cout << "You're logged in as " << currentSession.role << std::endl;
 }
 
+/**
+ * Функция начального экрана (если программа запущена впервые)
+ */
 void greeting(Session& currentSession) {
     if (!fileExists(USER_DATABASE)) {
         std::cout << "It seems you're running this application for the first time.\nLet's register an account for you!" << std::endl;
@@ -74,14 +93,15 @@ void greeting(Session& currentSession) {
     }
 }
 
-void mainMenu(Session& currentSession) {
+/**
+ * Основное меню авторизации
+ */
+void authMenu(Session& currentSession) {
     greeting(currentSession);
     int choice;
-
     do {
         std::string login, password, role;
         loginMenu(choice);
-
         switch (choice) {
             case 1:
                 enterLoginAndPassword(login, password);
@@ -112,10 +132,41 @@ void mainMenu(Session& currentSession) {
                 break;
 
             case 3:
-                return;
+                exit(0);
             
             default: 
                 std::cout << "Enter correct number!" << std::endl;
         }
-    } while (true);
+    } while (!isAuthorized(currentSession));
+}
+
+/**
+ * Меню для обычного пользователя 
+ */
+void userMenu() {
+    std::cout << "This is user menu." << std::endl;
+}
+
+/**
+ * Меню для администратора
+ */
+void adminMenu() {
+    std::cout << "This is admin menu." << std::endl;
+}
+
+/**
+ * Основное меню программы
+ */
+void mainMenu(Session& currentSession) {
+    if (!isAuthorized(currentSession)) {
+        authMenu(currentSession);
+    }
+
+    if (currentSession.role == "user") {
+        userMenu();
+    }
+
+    if (currentSession.role == "admin") {
+        adminMenu();
+    }
 }

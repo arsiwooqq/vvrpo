@@ -32,7 +32,11 @@ struct Session {
     std::string role;
     std::string access;
 
-    Session() {};
+    Session() {
+        this->login = "";
+        this->role = "";
+        this->access = "";
+    };
 
     Session(std::string login, std::string role, std::string access) {
         this->login = login;
@@ -49,3 +53,4 @@ std::string hashPassword(std::string password, std::string salt);
 void regUser(std::string login, std::string password, std::string role);
 void regFirstUser(std::string login, std::string password);
 bool fileExists(std::string file);
+bool isAuthorized(Session& currentSession);

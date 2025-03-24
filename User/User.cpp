@@ -122,3 +122,9 @@ Session authUser (std::string login, std::string password) {
     }
     throw std::string{"Login or password is not correct!"};
 }
+
+bool isAuthorized(Session& currentSession) {
+    if (currentSession.login == "" && currentSession.role == "" && currentSession.access == "")
+        return false;
+    return true;
+}
