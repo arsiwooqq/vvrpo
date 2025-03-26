@@ -14,6 +14,8 @@
                 "User/User.cpp",
                 "User/Greeting.cpp",
                 "Menu/Menu.cpp",
+                "Education/Education.cpp",
+                "Education/Functions.cpp",
                 "-o",
                 "program"
             ],

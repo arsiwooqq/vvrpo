@@ -1,6 +1,10 @@
 #include <iostream>
+#include <fstream>
 #include "Menu.h"
 #include "../User/User.h"
+#include "../Education/Education.h"
+
+const std::string BASE_SCHOLARSHIP = "base_scholarship.txt";
 
 /**
  * Функция для ввода выбора пользователем
@@ -116,6 +120,7 @@ void authMenu(Session& currentSession) {
                 break;
             /**
              * TODO: очень нужно сделать выход из аккаунта, запретить вход и регистрацию если сессия активна
+             * подтверждение аккаунта админами
              */
             case 2:
                 selectRole(role);
@@ -143,41 +148,212 @@ void authMenu(Session& currentSession) {
 /**
  * Меню для обычного пользователя 
  */
-void userMenu() {
+void userMenu(Session& currentSession) {
+    int choice; 
+    std::string scholarshipString;
+    getline(std::fstream(BASE_SCHOLARSHIP), scholarshipString); 
+    double baseScholarship = std::stod(scholarshipString);
+    if (!baseScholarship) baseScholarship = 125;
     std::cout << "User menu:" << std::endl;
-    /**
-     * − просмотр всех данных;
-    − выполнение индивидуального задания;
-    − поиск данных (как минимум по трем различным параметрам);
-    − сортировка (как минимум по трем различным параметрам).
-     */
+    std::cout << "1. View Data" << std::endl;
+    std::cout << "2. Calculate Scholarship" << std::endl;
+    std::cout << "3. Search Data" << std::endl;
+    std::cout << "4. Sort Data" << std::endl;
+    std::cout << "0. Back" << std::endl;
+    enterChoice(choice);
+    switch (choice) {
+        case 1:
+            outputStudents(currentSession);
+            break;
+
+        case 2:
+            outputScholarship(currentSession, baseScholarship);
+            break;
+
+        case 3:
+            std::cout << "Search menu:" << std::endl;
+            std::cout << "1. Search by name" << std::endl;
+            std::cout << "2. Search by group" << std::endl;
+            std::cout << "3. Search by mark" << std::endl;
+            std::cout << "0. Back" << std::endl;
+            enterChoice(choice);
+            switch (choice) {
+                case 1:
+                    searchByName(currentSession);
+                    break;
+                case 2:
+                    searchByGroup(currentSession);
+                    break;
+                case 3:
+                    searchByMark(currentSession);
+                    break;
+                case 0:
+                    break;
+                default:
+                    std::cout << "Enter correct number!" << std::endl;
+            }
+        case 4:
+            std::cout << "Sort menu:" << std::endl;
+            std::cout << "1. Sort by name" << std::endl;
+            std::cout << "2. Sort by group" << std::endl;
+            std::cout << "3. Sort by mark" << std::endl;
+            std::cout << "0. Back" << std::endl;
+            enterChoice(choice);
+            switch (choice) {
+                case 1:
+                    sortByName(currentSession);
+                    break;
+                case 2:
+                    sortByGroup(currentSession);
+                    break;
+                case 3:
+                    sortByMark(currentSession);
+                    break;
+                case 0:
+                    break;
+                default:
+                    std::cout << "Enter correct number!" << std::endl;
+            }
+        case 0: 
+            return;
+        default:
+            std::cout << "Enter correct number!" << std::endl;
+    }
 }
 
 /**
  * Меню для администратора
  */
-void adminMenu() {
+void adminMenu(Session& currentSession) {
+    int choice;
+    std::string scholarshipString;
+    getline(std::fstream(BASE_SCHOLARSHIP), scholarshipString); 
+    double baseScholarship = std::stod(scholarshipString);
+    if (!baseScholarship) baseScholarship = 125;
     std::cout << "Admin menu:" << std::endl;
-    std::cout << "1. Account management:" << std::endl;
+    std::cout << "1. Account management" << std::endl;
     /**
      * просмотр всех учетных записей;
     − добавление новой учетной записи;
     − редактирование учетной записи;
     − удаление учетной записи.
      */
-    std::cout << "2. Work with data:" << std::endl;
-    /**
-     * а) режим редактирования:
-    − просмотр всех данных;
-    − добавление новой записи;
-    − удаление записи;
-    − редактирование записи;
-    б) режим обработки данных:
-    − выполнение индивидуального задания;
-    − поиск данных (как минимум по трем различным параметрам);
-    − сортировка (как минимум по трем различным параметрам).
-     */
-    std::cout << "Admin menu:" << std::endl;
+    std::cout << "2. Work with data" << std::endl;
+    std::cout << "0. Back" << std::endl;
+    enterChoice(choice);
+    switch (choice) {
+        case 1:
+            std::cout << "Account management menu:" << std::endl;
+            std::cout << "1. View all accounts" << std::endl;
+            std::cout << "2. Add new account" << std::endl;
+            std::cout << "3. Edit account" << std::endl;
+            std::cout << "4. Delete account" << std::endl;
+            std::cout << "0. Back" << std::endl;
+            enterChoice(choice);
+            switch (choice) {
+                case 1:
+                    viewAllAccounts(currentSession);
+                    break;
+                case 2:
+                    addNewAccount(currentSession);
+                    break;
+                case 3:
+                    editAccount(currentSession);
+                    break;
+                case 4:
+                    deleteAccount(currentSession);
+                    break;
+                case 0:
+                    break;
+                default:
+                    std::cout << "Enter correct number!" << std::endl;
+            }
+            break;
+        case 2:
+            std::cout << "Edit data menu:" << std::endl;
+            std::cout << "1. View data" << std::endl;
+            std::cout << "2. Add data" << std::endl;
+            std::cout << "3. Edit data" << std::endl;
+            std::cout << "4. Delete data" << std::endl;
+            std::cout << "5. Calculate scholarship" << std::endl;
+            std::cout << "6. Search data" << std::endl;
+            std::cout << "7. Sort data" << std::endl;
+            std::cout << "0. Back" << std::endl;
+            enterChoice(choice);
+            switch(choice) {
+                case 1:
+                    outputStudents(currentSession);
+                    break;
+                case 2:
+                    addStudent(currentSession);
+                    break;
+                case 3:
+                    editStudent(currentSession);
+                    break;
+                case 4:
+                    deleteStudent(currentSession);
+                    break;
+                case 5:
+                    outputScholarship(currentSession, baseScholarship);
+                    break;
+                case 6:
+                    std::cout << "Search menu:" << std::endl;
+                    std::cout << "1. Search by name" << std::endl;
+                    std::cout << "2. Search by group" << std::endl;
+                    std::cout << "3. Search by mark" << std::endl;
+                    std::cout << "0. Back" << std::endl;
+                    enterChoice(choice);
+                    switch (choice) {
+                        case 1:
+                            searchByName(currentSession);
+                            break;
+                        case 2:
+                            searchByGroup(currentSession);
+                            break;
+                        case 3:
+                            searchByMark(currentSession);
+                            break;
+                        case 0:
+                            break;
+                        default:
+                            std::cout << "Enter correct number!" << std::endl;
+                    }
+                    break;
+                case 7:
+                    std::cout << "Sort menu:" << std::endl;
+                    std::cout << "1. Sort by name" << std::endl;
+                    std::cout << "2. Sort by group" << std::endl;
+                    std::cout << "3. Sort by mark" << std::endl;
+                    std::cout << "0. Back" << std::endl;
+                    enterChoice(choice);
+                    switch (choice) {
+                        case 1:
+                            sortByName(currentSession);
+                            break;
+                        case 2:
+                            sortByGroup(currentSession);
+                            break;
+                        case 3:
+                            sortByMark(currentSession);
+                            break;
+                        case 0:
+                            break;
+                        default:
+                            std::cout << "Enter correct number!" << std::endl;
+                    }
+                    break;
+                case 0:
+                    return;
+                    break;
+                default:
+                    std::cout << "Enter correct number!" << std::endl;
+            }
+            break;
+        case 0: 
+            return;
+        default:
+            std::cout << "Enter correct number!" << std::endl;
+    }
 }
 
 /**
@@ -189,10 +365,10 @@ void mainMenu(Session& currentSession) {
     }
 
     if (currentSession.role == "user") {
-        userMenu();
+        userMenu(currentSession);
     }
 
     if (currentSession.role == "admin") {
-        adminMenu();
+        adminMenu(currentSession);
     }
 }

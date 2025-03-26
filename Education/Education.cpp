@@ -36,7 +36,7 @@ std::vector<Student> getStudents() { // получение студентов из файла, формирован
 	std::ifstream file(STUDENT_DATABASE);
 
 	std::vector<Student> students;
-	std::string login, fullName, educationForm;
+	std::string fullName, educationForm;
 	int groupNumber;
 	bool isActive;
 	std::map<std::string, int> marks;
@@ -46,10 +46,10 @@ std::vector<Student> getStudents() { // получение студентов из файла, формирован
 		if (!file.is_open()) {
 			throw std::string{"File not found!"};
 		}
-		while (file >> login >> groupNumber >> fullName >> educationForm >> isActive) {
+		while (file >> groupNumber >> fullName >> educationForm >> isActive) {
 			marks = readMarks();
 			credit = readCredits();
-			students.push_back(Student(login,groupNumber, fullName, educationForm, isActive, marks, credit));
+			students.push_back(Student(groupNumber, fullName, educationForm, isActive, marks, credit));
 		}
 	}
 	catch (std::string e) {
@@ -89,8 +89,7 @@ double calculateScholarship(Student student, double baseScholarship) { // вычисл
 	double ball = average(student.marks, isExcellent);
 
 	if (student.educationForm == "Paid" || ball <= 5 || !isCredited) {
-		std::cout << "Student hasn't scholarsip." << std::endl;
-		return 0.0;
+		return 0;
 	}
 
 	if (isExcellent && student.isActive) {
