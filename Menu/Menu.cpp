@@ -137,7 +137,7 @@ void authMenu(Session& currentSession) {
                 enterLoginAndPassword(login, password);
 
                 try {
-                    regUser(login, password, role);
+                    regUser(login, password, role, false);
                     currentSession = authUser(login, password);
                     welcome(currentSession);
                 } catch (std::string e) {
@@ -177,6 +177,11 @@ void sortMenu(int& choice) {
  * Меню для обычного пользователя 
  */
 void userMenu(Session& currentSession) {
+    if (currentSession.access == "unactive") {
+        std::cout << "Your account is not activated yet!" << std::endl;
+        currentSession = Session();
+        return;
+    }
     do {
         int choice; 
         std::cout << "User menu:" << std::endl;
@@ -243,6 +248,11 @@ void userMenu(Session& currentSession) {
  * Меню для администратора
  */
 void adminMenu(Session& currentSession) {
+    if (currentSession.access == "unactive") {
+        std::cout << "But your account is not activated yet!" << std::endl;
+        currentSession = Session();
+        return;
+    }
     do {
         int choice;
         std::cout << "Admin menu:" << std::endl;
@@ -257,6 +267,7 @@ void adminMenu(Session& currentSession) {
                 std::cout << "2. Add new account" << std::endl;
                 std::cout << "3. Edit account" << std::endl;
                 std::cout << "4. Delete account" << std::endl;
+                std::cout << "5. Activate account" << std::endl;
                 std::cout << "0. Back" << std::endl;
                 enterChoice(choice);
                 switch (choice) {
@@ -272,6 +283,8 @@ void adminMenu(Session& currentSession) {
                     case 4:
                         deleteAccount(currentSession);
                         break;
+                    case 5:
+                        activateAccount(currentSession);
                     case 0:
                         break;
                     default:

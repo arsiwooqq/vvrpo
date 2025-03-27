@@ -14,6 +14,7 @@ struct Student {
 	Student(int groupNumber, std::string fullName, std::string educationForm, bool isActive, std::map<std::string, int> marks, std::map<std::string, bool> credit) {
 		this->groupNumber = groupNumber;
 		this->fullName = fullName;
+		this->educationForm = educationForm;
 		this->isActive = isActive;
 		this->marks = marks;
 		this->credit = credit;
@@ -42,3 +43,4 @@ void deleteAccount(Session& session);
 void addStudent(Session& session);
 void editAccount(Session& session);
 void deleteAccount(Session& session);
+void activateAccount(Session& session);

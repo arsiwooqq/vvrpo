@@ -80,7 +80,8 @@ void searchByName(Session& currentSession) {
 }
 
 void searchByMark(Session& currentSession) {
-    int mark;
+    double mark;
+    bool isExcellent;
     std::cout << "Enter minimum mark to search: ";
     std:: cin >> mark;
     
@@ -88,18 +89,13 @@ void searchByMark(Session& currentSession) {
     bool found = false;
     
     for (const auto& student : students) {
-        bool hasMark = false;
-        for (const auto& [subject, value] : student.marks) {
-            if (value >= mark) {
-                hasMark = true;
-                break;
-            }
-        }
-        if (hasMark) {
-            std::cout << "Found: " << student.fullName 
-                      << ", Group: " << student.groupNumber
-                      << ", Form: " << student.educationForm << std::endl;
+        double avg = average(student.marks, isExcellent);
+        if (avg >= mark) {
             found = true;
+            std::cout << "Found: " << student.fullName 
+                      << ", Group: " << student.groupNumber 
+                      << ", Form: " << student.educationForm
+                      << ", Avg mark: " << avg << std::endl;
         }
     }
     if (!found) {
@@ -184,9 +180,14 @@ void viewAllAccounts(Session& currentSession) {
 
 void addNewAccount(Session& currentSession) {
     std::string login, password, role;
-    std::cout << "Creating new account:" << std::endl;    
+    std::cout << "Enter login: " << std::endl;
+    std::cin >> login;
+    std::cout << "Enter password: " << std::endl;
+    std::cin >> password;  
+    std::cout << "Enter role (user/admin): " << std::endl;
+    std::cin >> role;
     try {
-        regUser(login, password, role);
+        regUser(login, password, role, true);
         std::cout << "Account created successfully!" << std::endl;
     } catch (const std::string& e) {
         std::cout << "Error: " << e << std::endl;
@@ -203,76 +204,61 @@ void editStudent(Session& currentSession) {
     for (auto& student : students) {
         if (student.fullName == name) {
             std::cout << "Enter new group number: ";
-            std:: cin >> student.groupNumber;
+            std::cin >> student.groupNumber;
             std::cout << "Enter new education form (Budget/Paid): ";
             std::cin >> student.educationForm;
             std::cout << "Student updated successfully!" << std::endl;
-            return;
         }
     }
-    std::ofstream outFile(STUDENT_DATABASE, std::ios::trunc); // trunc для перезаписи
-    if (!outFile.is_open()) {
-        std::cout << "Error: Could not open " << STUDENT_DATABASE << " for writing!" << std::endl;
-        return;
-    }
+    std::ofstream file(STUDENT_DATABASE);
     
     for (const auto& student : students) {
-        outFile << student.groupNumber << " " << student.fullName << " "
-                << student.educationForm << " " << student.isActive << " ";
-        
-        // Запись оценок
+        file << student.groupNumber << std::endl << student.fullName << std::endl << student.educationForm << std::endl << student.isActive << std::endl;
         for (const auto& [subject, mark] : student.marks) {
-            outFile << subject << " " << mark << " ";
+            file << subject << " " << mark << " ";
         }
-        
-        // Запись зачетов
+        file << std::endl;
         for (const auto& [subject, credited] : student.credit) {
-            outFile << subject << " " << credited << " ";
+            file << subject << " " << (credited ? 1 : 0) << " ";
         }
-        outFile << "\n";
+        file << std::endl;
     }
-    
-    outFile.close();
-    std::cout << "Student not found!" << std::endl;
 }
 
-void deleteStudent(Session& currentSession) {
+void deleteStudent(Session&) {
     std::string name;
     std::cout << "Enter student name to delete: ";
     std::cin.ignore();
     std::getline(std::cin, name);
+
     std::vector<Student> students = getStudents();
-    auto it = std::remove_if(students.begin(), students.end(),
-        [&name](const Student& student) { return student.fullName == name; });
-    
-    if (it != students.end()) {
-        students.erase(it, students.end());
-        std::cout << "Student deleted successfully!" << std::endl;
-        std::ofstream outFile(STUDENT_DATABASE, std::ios::trunc); // trunc для перезаписи
-    if (!outFile.is_open()) {
-        std::cout << "Error: Could not open " << STUDENT_DATABASE << " for writing!" << std::endl;
-        return;
-    }
-    
+    std::ofstream file(STUDENT_DATABASE);
+
+    bool deleted = false;
     for (const auto& student : students) {
-        outFile << student.groupNumber << " " << student.fullName << " "
-                << student.educationForm << " " << student.isActive << " ";
-        
-        // Запись оценок
-        for (const auto& [subject, mark] : student.marks) {
-            outFile << subject << " " << mark << " ";
+        if (student.fullName != name) {
+            file << student.groupNumber << std::endl
+                 << student.fullName << std::endl
+                 << student.educationForm << std::endl
+                 << student.isActive << std::endl;
+
+            for (const auto& [subject, mark] : student.marks) {
+                file << subject << " " << mark << " ";
+            }
+            file << std::endl;
+
+            for (const auto& [subject, credited] : student.credit) {
+                file << subject << " " << (credited ? 1 : 0) << " ";
+            }
+            file << std::endl;
+        } else {
+            deleted = true;
         }
-        
-        // Запись зачетов
-        for (const auto& [subject, credited] : student.credit) {
-            outFile << subject << " " << credited << " ";
-        }
-        outFile << "\n";
     }
-    } else {
-        std::cout << "Student not found!" << std::endl;
-    }
+
+    std::cout << (deleted ? "Student deleted successfully!" : "Student not found!") << std::endl;
 }
+
 
 void addStudent(Session& currentSession) {
     std::string fullName, educationForm;
@@ -304,10 +290,10 @@ void addStudent(Session& currentSession) {
         marks[subject] = mark;
     }
     
-    // Ввод зачетов (5 предметов)
+    // Ввод зачетов (4 предмета)
     std::map<std::string, bool> credits;
-    std::cout << "Enter 5 credits (subject 1/0):" << std::endl;
-    for (int i = 0; i < 5; i++) {
+    std::cout << "Enter 4 credits (subject 1/0):" << std::endl;
+    for (int i = 0; i < 4; i++) {
         std::string subject;
         int credited;
         std::cout << "Subject " << i + 1 << ": ";
@@ -318,24 +304,20 @@ void addStudent(Session& currentSession) {
     }
     
     // Открываем файл для добавления
-    std::ofstream outFile(STUDENT_DATABASE, std::ios::app); // app - добавление в конец
-    if (!outFile.is_open()) {
-        std::cout << "Error: Could not open " << STUDENT_DATABASE << " for writing!" << std::endl;
-        return;
-    }
+    std::ofstream file(STUDENT_DATABASE, std::ios::app);
     
     // Записываем нового студента
-    outFile << groupNumber << std::endl << fullName << std::endl << educationForm << std::endl << isActive << std::endl;
+    file << groupNumber << std::endl << fullName << std::endl << educationForm << std::endl << isActive << std::endl;
     for (const auto& [subject, mark] : marks) {
-        outFile << subject << " " << mark << " ";
+        file << subject << " " << mark << " ";
     }
-    outFile << std::endl;
+    file << std::endl;
     for (const auto& [subject, credited] : credits) {
-        outFile << subject << " " << (credited ? 1 : 0) << " ";
+        file << subject << " " << (credited ? 1 : 0) << " ";
     }
-    outFile << std::endl;
+    file << std::endl;
     
-    outFile.close();
+    file.close();
     std::cout << "Student added successfully!" << std::endl;
 }
 
@@ -353,21 +335,7 @@ void editAccount(Session& currentSession) {
             std::string newPassword;
             std::cout << "Enter new password: ";
             std::cin >> newPassword;
-            user.password = hashPassword(newPassword, user.salt);
-            
-            // Перезапись файла
-            std::ofstream outFile(USER_DATABASE, std::ios::trunc); // trunc для перезаписи
-            if (!outFile.is_open()) {
-                std::cout << "Error: Could not open " << USER_DATABASE << " for writing!" << std::endl;
-                return;
-            }
-            
-            for (const auto& u : users) {
-                outFile << u.login << " " << u.password << " " << u.salt << " "
-                        << u.role << " " << u.access << "\n";
-            }
-            
-            outFile.close();
+            editPassword(login, newPassword);
             std::cout << "Account updated successfully!" << std::endl;
             break;
         }
@@ -378,33 +346,43 @@ void editAccount(Session& currentSession) {
     }
 }
 
-void deleteAccount(Session& currentSession) {
+void deleteAccount(Session&) {
     std::string login;
     std::cout << "Enter login of account to delete: ";
     std::cin >> login;
+
+    std::vector<User> users = getUsers();
+    std::ofstream file(USER_DATABASE);
+
+    bool deleted = false;
+    for (const auto& user : users) {
+        if (user.login != login) {
+            file << user.login << " " << user.password << " " << user.salt << " "
+                 << user.role << " " << user.access << "\n";
+        } else {
+            deleted = true;
+        }
+    }
+
+    std::cout << (deleted ? "Account deleted successfully!" : "Account not found!") << std::endl;
+}
+
+void activateAccount(Session& currentSession) {
+    std::string login;
+    std::cout << "Enter login: ";
+    std::cin >> login;
     
     std::vector<User> users = getUsers();
-    auto it = std::remove_if(users.begin(), users.end(),
-        [&login](const User& user) { return user.login == login; });
-    
-    if (it != users.end()) {
-        users.erase(it, users.end());
-        
-        // Перезапись файла
-        std::ofstream outFile(USER_DATABASE, std::ios::trunc); // trunc для перезаписи
-        if (!outFile.is_open()) {
-            std::cout << "Error: Could not open " << USER_DATABASE << " for writing!" << std::endl;
-            return;
+    for (User& user : users) {
+        if (user.login == login) {
+            user.access = "active";
+            std::cout << "Account activated successfully!" << std::endl;
+            break;
         }
-        
-        for (const auto& u : users) {
-            outFile << u.login << " " << u.password << " " << u.salt << " "
-                    << u.role << " " << u.access << "\n";
-        }
-        
-        outFile.close();
-        std::cout << "Account deleted successfully!" << std::endl;
-    } else {
-        std::cout << "Account not found!" << std::endl;
+    }
+    std::ofstream file(USER_DATABASE);
+    for (const auto& u : users) {
+        file << u.login << " " << u.password << " " << u.salt << " "
+                << u.role << " " << u.access << "\n";
     }
 }

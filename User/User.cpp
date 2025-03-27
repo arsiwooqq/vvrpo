@@ -89,7 +89,7 @@ std::string hashPassword(std::string password, std::string salt) {
  * Регистрация пользователя с хешированием пароля
  * Роль либо user, либо admin
  */
-void regUser(std::string login, std::string password, std::string role) {
+void regUser(std::string login, std::string password, std::string role, bool isActive) {
     if (!isExist(login)) {
         if (login.size() < 8) {
             throw std::string{"Login cannot be shorter than 8 characters!"};
@@ -101,9 +101,43 @@ void regUser(std::string login, std::string password, std::string role) {
         std::string salt = generateSalt(32);
         std::string hashedPassword = hashPassword(password, salt);
     
-        File << login << " " << hashedPassword << " " << salt << " " << role << " " << "unactive" << std::endl;
+        File << login << " " << hashedPassword << " " << salt << " " << role << " ";
+        if (isActive) {
+            File << "active" << std::endl;
+        } else {
+            File << "unactive" << std::endl;
+        }
     } else {
         throw std::string{"This login already exists!"};
+    }
+}
+
+void editPassword(std::string login, std::string newPassword) {
+    std::string salt = generateSalt(32);
+    std::string hashedPassword = hashPassword(newPassword, salt);
+    std::vector <User> users = getUsers();
+    for (User& user : users) {
+        if (user.login == login) {
+            user.password = hashedPassword;
+            user.salt = salt;
+        }
+    }
+    std::ofstream file(USER_DATABASE);
+    for (const User& user : users) {
+        file << user.login << " " << user.password << " " << user.salt << " " << user.role << " " << user.access << std::endl;
+    }
+}
+
+void activateAccount(std::string login) {
+    std::vector <User> users = getUsers();
+    for (User& user : users) {
+        if (user.login == login) {
+            user.access = "active";
+        }
+    }
+    std::ofstream file(USER_DATABASE);
+    for (const User& user : users) {
+        file << user.login << " " << user.password << " " << user.salt << " " << user.role << " " << user.access << std::endl;
     }
 }
 
