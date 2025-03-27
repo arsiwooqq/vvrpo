@@ -8,6 +8,8 @@ Session currentSession;
 
 int main() {
     std::vector<User> users;
-    mainMenu(currentSession);
+    do {
+        mainMenu(currentSession);
+    } while (true);
     return 0;
 }

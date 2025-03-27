@@ -7,29 +7,34 @@
 #include "Education.h"
 #include "../User/User.h"
 
-std::map<std::string, int> readMarks() { // функция для чтения из файла map
-	std::ifstream file(STUDENT_DATABASE);
-	std::map<std::string, int> marks;
-	for (int i = 0; i < 4; i++) {
-		std::string key;
-		int value;
-		file >> key >> value;
-		marks[key] = value;
-	}
-	return marks;
+std::map<std::string, int> readMarks(std::ifstream& file) {
+    std::map<std::string, int> marks;
+    for (int i = 0; i < 4; i++) {
+        std::string key;
+        int value;
+        if (!(file >> key >> value)) {
+            std::cerr << "Error reading marks!" << std::endl;
+            break;
+        }
+        marks[key] = value;
+    }
+    return marks;
 }
 
-std::map<std::string, bool> readCredits() {
-	std::ifstream file(STUDENT_DATABASE);
-	std::map<std::string, bool> credit;
-	for (int i = 0; i < 5; i++) {
-		std::string key;
-		int value;
-		file >> key >> value;
-		credit[key] = value;
-	}
-	return credit;
+std::map<std::string, bool> readCredits(std::ifstream& file) {
+    std::map<std::string, bool> credit;
+    for (int i = 0; i < 4; i++) {
+        std::string key;
+        int value;
+        if (!(file >> key >> value)) {
+            std::cerr << "Error reading credits!" << std::endl;
+            break;
+        }
+        credit[key] = value;
+    }
+    return credit;
 }
+
 
 
 std::vector<Student> getStudents() { // получение студентов из файла, формирование вектора
@@ -38,7 +43,7 @@ std::vector<Student> getStudents() { // получение студентов из файла, формирован
 	std::vector<Student> students;
 	std::string fullName, educationForm;
 	int groupNumber;
-	bool isActive;
+	int isActive;
 	std::map<std::string, int> marks;
 	std::map<std::string, bool> credit;
 
@@ -46,18 +51,21 @@ std::vector<Student> getStudents() { // получение студентов из файла, формирован
 		if (!file.is_open()) {
 			throw std::string{"File not found!"};
 		}
-		while (file >> groupNumber >> fullName >> educationForm >> isActive) {
-			marks = readMarks();
-			credit = readCredits();
+
+		while (file >> groupNumber) {
+			file.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Удаляем символ новой строки
+			std::getline(file, fullName);
+			file >> educationForm >> isActive;
+			marks = readMarks(file);
+			credit = readCredits(file);
 			students.push_back(Student(groupNumber, fullName, educationForm, isActive, marks, credit));
 		}
+	} catch (const std::string& e) {
+		std::cout << "Error: " << e << std::endl;
+	} catch (...) {
+		std::cout << "Unknown error!" << std::endl;
 	}
-	catch (std::string e) {
-		std::cout << e << std::endl;
-	}
-	catch (...) {
-		std::cout << "Error!" << std::endl;
-	}
+
 	return students;
 }
 
