@@ -38,7 +38,7 @@ Biology 1 Chemistry 1 Math 1 Physics 1
 Laura Garcia
 Budget
 1
-Biology 9 Chemistry 8 Math 8 Physics 8
+Biology 9 Chemistry 8 Math 8 Physics 8 
 Biology 1 Chemistry 1 Math 1 Physics 0 
 109
 James Anderson
@@ -52,3 +52,9 @@ Budget
 1
 Cooking 8 Maths 10 Phys 10 Trud 7 
 Cooking 0 Maths 1 Phys 0 Trud 1 
+0
+Abram
+
+0
+ 1 
+ 1 

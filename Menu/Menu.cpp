@@ -3,20 +3,38 @@
 #include "Menu.h"
 #include "../User/User.h"
 #include "../Education/Education.h"
+#include "../Functions/Functions.h"
 
 const std::string BASE_SCHOLARSHIP = "base_scholarship.txt";
 
 /**
- * Функция для ввода выбора пользователем
+ * Функция для ввода числа пользователем
  * Защищена от некорректного ввода
  */
-void enterChoice(int& choice) {
-    std::cin >> choice;
-    if (std::cin.fail()) {
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::cout << "Invalid input. Please enter a number!" << std::endl;
-    }
+void enterNumber(int& number) {
+    do {
+        std::cin >> number;
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Invalid input!" << std::endl;
+        } else {
+            break;
+        }
+    } while (true);
+}
+
+void enterNumber(double& number) {
+    do {
+        std::cin >> number;
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "Invalid input! Please enter a valid number." << std::endl;
+        } else {
+            break;
+        }
+    } while (true);
 }
 
 void enterScholarship(double& scholarship) {
@@ -38,7 +56,7 @@ void loginMenu(int& choice) {
     std::cout << "2. Register" << std::endl;
     std::cout << "3. Exit" << std::endl;
     std::cout << "Enter your choice: ";
-    enterChoice(choice);
+    enterNumber(choice);
 }
 
 /**
@@ -62,7 +80,7 @@ void selectRole(std::string& role) {
         std::cout << "1. User" << std::endl;
         std::cout << "2. Admin" << std::endl;
         std::cout << "Enter your choice: ";
-        enterChoice(choice);
+        enterNumber(choice);
         switch (choice) {
             case 1: 
                 role = "user";
@@ -161,7 +179,7 @@ void searchMenu(int& choice) {
     std::cout << "2. Search by group" << std::endl;
     std::cout << "3. Search by mark" << std::endl;
     std::cout << "0. Back" << std::endl;
-    enterChoice(choice);
+    enterNumber(choice);
 }
 
 void sortMenu(int& choice) {
@@ -170,7 +188,7 @@ void sortMenu(int& choice) {
     std::cout << "2. Sort by group" << std::endl;
     std::cout << "3. Sort by mark" << std::endl;
     std::cout << "0. Back" << std::endl;
-    enterChoice(choice);
+    enterNumber(choice);
 }
 
 /**
@@ -190,7 +208,7 @@ void userMenu(Session& currentSession) {
         std::cout << "3. Search Data" << std::endl;
         std::cout << "4. Sort Data" << std::endl;
         std::cout << "0. Log out" << std::endl;
-        enterChoice(choice);
+        enterNumber(choice);
         switch (choice) {
             case 1:
                 outputStudents(currentSession);
@@ -259,7 +277,7 @@ void adminMenu(Session& currentSession) {
         std::cout << "1. Account management" << std::endl;
         std::cout << "2. Work with data" << std::endl;
         std::cout << "0. Log out" << std::endl;
-        enterChoice(choice);
+        enterNumber(choice);
         switch (choice) {
             case 1:
                 std::cout << "Account management menu:" << std::endl;
@@ -267,15 +285,14 @@ void adminMenu(Session& currentSession) {
                 std::cout << "2. Add new account" << std::endl;
                 std::cout << "3. Edit account" << std::endl;
                 std::cout << "4. Delete account" << std::endl;
-                std::cout << "5. Activate account" << std::endl;
                 std::cout << "0. Back" << std::endl;
-                enterChoice(choice);
+                enterNumber(choice);
                 switch (choice) {
                     case 1:
-                        viewAllAccounts(currentSession);
+                        outputAccounts(currentSession);
                         break;
                     case 2:
-                        addNewAccount(currentSession);
+                        addAccount(currentSession);
                         break;
                     case 3:
                         editAccount(currentSession);
@@ -283,8 +300,6 @@ void adminMenu(Session& currentSession) {
                     case 4:
                         deleteAccount(currentSession);
                         break;
-                    case 5:
-                        activateAccount(currentSession);
                     case 0:
                         break;
                     default:
@@ -301,7 +316,7 @@ void adminMenu(Session& currentSession) {
                 std::cout << "6. Search data" << std::endl;
                 std::cout << "7. Sort data" << std::endl;
                 std::cout << "0. Back" << std::endl;
-                enterChoice(choice);
+                enterNumber(choice);
                 switch(choice) {
                     case 1:
                         outputStudents(currentSession);

@@ -22,7 +22,7 @@ std::map<std::string, int> readMarks(std::ifstream& file) {
 }
 
 std::map<std::string, bool> readCredits(std::ifstream& file) {
-    std::map<std::string, bool> credit;
+    std::map<std::string, bool> credits;
     for (int i = 0; i < 4; i++) {
         std::string key;
         int value;
@@ -30,14 +30,14 @@ std::map<std::string, bool> readCredits(std::ifstream& file) {
             std::cerr << "Error reading credits!" << std::endl;
             break;
         }
-        credit[key] = value;
+        credits[key] = value;
     }
-    return credit;
+    return credits;
 }
 
 
 
-std::vector<Student> getStudents() { // получение студентов из файла, формирование вектора
+std::vector<Student> getStudents() {
 	std::ifstream file(STUDENT_DATABASE);
 
 	std::vector<Student> students;
@@ -45,7 +45,7 @@ std::vector<Student> getStudents() { // получение студентов из файла, формирован
 	int groupNumber;
 	int isActive;
 	std::map<std::string, int> marks;
-	std::map<std::string, bool> credit;
+	std::map<std::string, bool> credits;
 
 	try {
 		if (!file.is_open()) {
@@ -53,12 +53,12 @@ std::vector<Student> getStudents() { // получение студентов из файла, формирован
 		}
 
 		while (file >> groupNumber) {
-			file.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Удаляем символ новой строки
+			file.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			std::getline(file, fullName);
 			file >> educationForm >> isActive;
 			marks = readMarks(file);
-			credit = readCredits(file);
-			students.push_back(Student(groupNumber, fullName, educationForm, isActive, marks, credit));
+			credits = readCredits(file);
+			students.push_back(Student(fullName, groupNumber, educationForm, isActive, marks, credits));
 		}
 	} catch (const std::string& e) {
 		std::cout << "Error: " << e << std::endl;
@@ -69,8 +69,8 @@ std::vector<Student> getStudents() { // получение студентов из файла, формирован
 	return students;
 }
 
-bool isCredit(std::map<std::string, bool> credit) { // функция для определения есть ли незачет
-	for (auto pair : credit) {
+bool isCredit(std::map<std::string, bool> credits) {
+	for (auto pair : credits) {
 		if (pair.second == false) {
 			return false;
 		}
@@ -78,7 +78,7 @@ bool isCredit(std::map<std::string, bool> credit) { // функция для определения е
 	return true;
 }
 
-double average(std::map<std::string, int> marks, bool& isExcellent) { // функция для расчета среднего балла и получения bool=false если человек не отличник
+double average(std::map<std::string, int> marks, bool& isExcellent) {
 	isExcellent = true;
 	double sum = 0, average;
 	for (auto& pair : marks) {
@@ -91,9 +91,9 @@ double average(std::map<std::string, int> marks, bool& isExcellent) { // функция
 	return average;
 }
 
-double calculateScholarship(Student student, double baseScholarship) { // вычисление стипендии
+double calculateScholarship(Student student, double baseScholarship) {
 	bool isExcellent;
-	bool isCredited = isCredit(student.credit);
+	bool isCredited = isCredit(student.credits);
 	double ball = average(student.marks, isExcellent);
 
 	if (student.educationForm == "Paid" || ball <= 5 || !isCredited) {
