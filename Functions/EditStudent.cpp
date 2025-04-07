@@ -26,6 +26,9 @@ void editStudentFullName(std::vector <Student> &students, Student &student) {
     std::getline(std::cin, newFullName);
     student.fullName = newFullName;
     writeStudents(students);
+
+    std::cout << "Full name edited successfully!" << std::endl;
+    pressAnyKeyToContinue();
 }
 
 void editStudentGroupNumber(std::vector <Student> &students, Student &student) {
@@ -34,6 +37,9 @@ void editStudentGroupNumber(std::vector <Student> &students, Student &student) {
     enterNumber(newGroupNumber);
     student.groupNumber = newGroupNumber;
     writeStudents(students);
+
+    std::cout << "Group edited successfully!" << std::endl;
+    pressAnyKeyToContinue();
 }
 
 void editStudentEducationForm(std::vector <Student> &students, Student &student) {
@@ -42,6 +48,9 @@ void editStudentEducationForm(std::vector <Student> &students, Student &student)
     enterEducationForm(newEducationForm);
     student.educationForm = newEducationForm;
     writeStudents(students);
+
+    std::cout << "Education form edited successfully!" << std::endl;
+    pressAnyKeyToContinue();
 }
 
 void editStudentActiveness(std::vector <Student> &students, Student &student) {
@@ -49,16 +58,25 @@ void editStudentActiveness(std::vector <Student> &students, Student &student) {
     std::cout << "Enter activeness (yes/no): ";
     student.isActive = selectYesNo();
     writeStudents(students);
+
+    std::cout << "Activeness edited successfully!" << std::endl;
+    pressAnyKeyToContinue();
 }
 
 void editStudentMarks(std::vector <Student> &students, Student &student) {
     student.marks = enterMarks();
     writeStudents(students);
+
+    std::cout << "Marks edited successfully!" << std::endl;
+    pressAnyKeyToContinue();
 }
 
 void editStudentCredits(std::vector <Student> &students, Student &student) {
     student.credits = enterCredits();
     writeStudents(students);
+
+    std::cout << "Credits edited successfully!" << std::endl;
+    pressAnyKeyToContinue();
 }
 
 void editStudent(Session& currentSession) {
@@ -102,7 +120,6 @@ void editStudent(Session& currentSession) {
                         break;
                 }
             } while (choice != 0);
-            std::cout << "Student updated successfully!" << std::endl;
             break;
         }
     }
@@ -110,6 +127,4 @@ void editStudent(Session& currentSession) {
     if (!found) {
         std::cout << "Student not found!" << std::endl;
     }
-
-    pressAnyKeyToContinue();
 }

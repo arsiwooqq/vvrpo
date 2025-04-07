@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 #include "Functions.h"
 #include "../Education/Education.h"
 #include "Instruments/Instruments.h"
@@ -11,10 +12,11 @@ void deleteStudent(Session&) {
     std::getline(std::cin, name);
 
     std::vector<Student> students = getStudents();
+    std::ofstream file(STUDENT_DATABASE);
 
     bool deleted = false;
     for (Student& student : students) {
-        if (student.fullName != name) {
+        if (toLowerCase(student.fullName) != toLowerCase(name)) {
             writeStudent(student);
         } else {
             deleted = true;

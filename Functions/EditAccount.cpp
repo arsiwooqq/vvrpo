@@ -23,11 +23,14 @@ void editAccountPassword(User &user) {
     std::cout << "Enter new password: ";
     std::getline(std::cin, newPassword);
     editPassword(user.login, newPassword);
+
+    std::cout << "Password edited successfully!" << std::endl;
+    pressAnyKeyToContinue();
 }
 
 void editAccountRole(std::vector<User> &users, User &user) {
     if (!checkDeletionPossibility(user.login)) {
-        std::cout << "You can not change the role of the last admin!" << std::endl;
+        std::cout << "You can not change role of the last admin!" << std::endl;
         pressAnyKeyToContinue();
         return;
     }
@@ -35,17 +38,31 @@ void editAccountRole(std::vector<User> &users, User &user) {
     selectRole(newRole);
     user.role = newRole;
     writeUsers(users);
+
+    std::cout << "Role edited successfully!" << std::endl;
+    pressAnyKeyToContinue();
 }
 
 void activateAccount(std::vector<User> &users, User &user) {
     user.access = "active";
     writeUsers(users);
+
+    std::cout << "Account activated successfully!" << std::endl;
+    pressAnyKeyToContinue();
 }
 
 
 void deactivateAccount(std::vector<User> &users, User &user) {
+    if (!checkDeletionPossibility(user.login)) {
+        std::cout << "You can not change status of the last admin!" << std::endl;
+        pressAnyKeyToContinue();
+        return;
+    }
     user.access = "unactive";
     writeUsers(users);
+
+    std::cout << "Account deactivated successfully!" << std::endl;
+    pressAnyKeyToContinue();
 }
 
 void editAccount(Session& currentSession) {
@@ -83,7 +100,6 @@ void editAccount(Session& currentSession) {
                         break;
                 }
             } while (choice != 0);
-            std::cout << "Account updated successfully!" << std::endl;
             break;
         }
     }
@@ -91,6 +107,4 @@ void editAccount(Session& currentSession) {
     if (!found) {
         std::cout << "Account not found!" << std::endl;
     }
-
-    pressAnyKeyToContinue();
 }

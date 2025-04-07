@@ -43,7 +43,7 @@ void welcome(Session currentSession) {
  * Функция начального экрана (если программа запущена впервые)
  */
 void greeting(Session& currentSession) {
-    if (!fileExists(USER_DATABASE)) {
+    if (!fileExists(USER_DATABASE) || getUsers().size() == 0) {
         clearConsole();
         std::cout << "It seems you're running this application for the first time.\nLet's register an account for you!" << std::endl;
 
