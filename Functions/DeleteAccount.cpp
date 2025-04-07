@@ -29,4 +29,5 @@ void deleteAccount(Session&) {
     }
 
     std::cout << (deleted ? "Account deleted successfully!" : "Account not found!") << std::endl;
+    pressAnyKeyToContinue();
 }

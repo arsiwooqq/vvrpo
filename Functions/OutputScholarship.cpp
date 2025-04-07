@@ -5,6 +5,7 @@
 #include <fstream>
 #include "../User/User.h"
 #include "../Education/Education.h"
+#include "Instruments/Instruments.h"
 
 void outputScholarship(Session& currentSession, double baseScholarship) {
     if (currentSession.role == "admin" || currentSession.role == "user") {
@@ -27,4 +28,6 @@ void outputScholarship(Session& currentSession, double baseScholarship) {
     } else {
         std::cout << "You don't have access to this function!" << std::endl;
     }
+
+    pressAnyKeyToContinue();
 }

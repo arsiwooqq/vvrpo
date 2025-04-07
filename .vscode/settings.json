@@ -54,6 +54,7 @@
         "algorithm": "cpp",
         "fstream": "cpp",
         "iomanip": "cpp",
-        "iterator": "cpp"
+        "iterator": "cpp",
+        "map": "cpp"
     }
 }

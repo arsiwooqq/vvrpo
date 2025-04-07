@@ -3,6 +3,7 @@
 #include "Functions.h"
 #include "../Education/Education.h"
 #include "../Menu/Menu.h"
+#include "Instruments/Instruments.h"
 
 void searchByMark(Session& currentSession) {
     double mark;
@@ -26,4 +27,6 @@ void searchByMark(Session& currentSession) {
     if (!found) {
         std::cout << "No students found with mark >= " << mark << std::endl;
     }
+
+    pressAnyKeyToContinue();
 }

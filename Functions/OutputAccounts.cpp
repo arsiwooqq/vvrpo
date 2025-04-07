@@ -3,6 +3,7 @@
 #include <iomanip>
 #include "Functions.h"
 #include "../User/User.h"
+#include "Instruments/Instruments.h"
 
 void outputAccounts(Session& currentSession) {
     std::vector<User> users = getUsers();
@@ -20,4 +21,6 @@ void outputAccounts(Session& currentSession) {
                   << std::setw(20) << user.access
                   << std::endl;
     }
+
+    pressAnyKeyToContinue();
 }

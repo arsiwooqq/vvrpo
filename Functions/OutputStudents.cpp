@@ -5,6 +5,7 @@
 #include "Functions.h"
 #include "../User/User.h"
 #include "../Education/Education.h"
+#include "Instruments/Instruments.h"
 
 void outputStudents(Session& currentSession) {
     if (currentSession.role == "admin" || currentSession.role == "user") {
@@ -34,4 +35,6 @@ void outputStudents(Session& currentSession) {
     } else {
         std::cout << "You don't have access to this function!" << std::endl;
     }
+
+    pressAnyKeyToContinue();
 }

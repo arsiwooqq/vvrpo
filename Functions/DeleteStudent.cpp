@@ -23,4 +23,5 @@ void deleteStudent(Session&) {
     }
 
     std::cout << (deleted ? "Student deleted successfully!" : "Student not found!") << std::endl;
+    pressAnyKeyToContinue();
 }

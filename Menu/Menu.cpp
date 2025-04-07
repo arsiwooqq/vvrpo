@@ -4,25 +4,9 @@
 #include "../User/User.h"
 #include "../Education/Education.h"
 #include "../Functions/Functions.h"
+#include "../Functions/Instruments/Instruments.h"
 
 const std::string BASE_SCHOLARSHIP = "base_scholarship.txt";
-
-/**
- * Функция для ввода числа пользователем
- * Защищена от некорректного ввода
- */
-void enterNumber(int& number) {
-    do {
-        std::cin >> number;
-        if (std::cin.fail()) {
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cout << "Invalid input!" << std::endl;
-        } else {
-            break;
-        }
-    } while (true);
-}
 
 void enterNumber(double& number) {
     do {
@@ -51,6 +35,7 @@ void enterScholarship(double& scholarship) {
  * Меню для авторизации 
  */
 void loginMenu(int& choice) {
+    clearConsole();
     std::cout << "Menu:" << std::endl;
     std::cout << "1. Login" << std::endl;
     std::cout << "2. Register" << std::endl;
@@ -67,31 +52,6 @@ void enterLoginAndPassword(std::string& login, std::string& password) {
     std::cin >> login;
     std::cout << "Enter password: ";
     std::cin >> password;
-    std::cout << std::endl;
-}
-
-/**
- * Функция выбора роли при регистрации
- */
-void selectRole(std::string& role) {
-    do {
-        int choice;
-        std::cout << "Select role: " << std::endl;
-        std::cout << "1. User" << std::endl;
-        std::cout << "2. Admin" << std::endl;
-        std::cout << "Enter your choice: ";
-        enterNumber(choice);
-        switch (choice) {
-            case 1: 
-                role = "user";
-                break;
-            case 2:
-                role = "admin";
-                break;
-            default:
-                std::cout << "Enter correct role!" << std::endl;
-        }
-    } while (role != "user" && role != "admin");
 }
 
 /**
@@ -117,8 +77,10 @@ void greeting(Session& currentSession) {
                 regFirstUser(login, password);
                 currentSession = authUser(login, password);
                 welcome(currentSession);
+                pressAnyKeyToContinue();
             } catch (std::string e) {
                 std::cout << e << std::endl;
+                pressAnyKeyToContinue();
             }
 
         } while (!fileExists(USER_DATABASE));
@@ -141,15 +103,13 @@ void authMenu(Session& currentSession) {
                 try {
                     currentSession = authUser(login, password);
                     welcome(currentSession);
+                    pressAnyKeyToContinue();
                 } catch (std::string e) {
                     std::cout << e << std::endl;
+                    pressAnyKeyToContinue();
                 }
 
                 break;
-            /**
-             * TODO: очень нужно сделать выход из аккаунта, запретить вход и регистрацию если сессия активна
-             * подтверждение аккаунта админами
-             */
             case 2:
                 selectRole(role);
                 enterLoginAndPassword(login, password);
@@ -158,8 +118,10 @@ void authMenu(Session& currentSession) {
                     regUser(login, password, role, false);
                     currentSession = authUser(login, password);
                     welcome(currentSession);
+                    pressAnyKeyToContinue();
                 } catch (std::string e) {
                     std::cout << e << std::endl;
+                    pressAnyKeyToContinue();
                 }
 
                 break;
@@ -197,10 +159,13 @@ void sortMenu(int& choice) {
 void userMenu(Session& currentSession) {
     if (currentSession.access == "unactive") {
         std::cout << "Your account is not activated yet!" << std::endl;
+        std::cout << "Logging out..." << std::endl;
+        pressAnyKeyToContinue();
         currentSession = Session();
         return;
     }
     do {
+        clearConsole();
         int choice; 
         std::cout << "User menu:" << std::endl;
         std::cout << "1. View Data" << std::endl;
@@ -236,7 +201,9 @@ void userMenu(Session& currentSession) {
                         break;
                     default:
                         std::cout << "Enter correct number!" << std::endl;
+                        break;
                 }
+                break;
             case 4:
                 sortMenu(choice);
                 switch (choice) {
@@ -253,7 +220,9 @@ void userMenu(Session& currentSession) {
                         break;
                     default:
                         std::cout << "Enter correct number!" << std::endl;
+                        break;
                 }
+                break;
             case 0: 
                 currentSession = Session();
                 return;
@@ -267,12 +236,15 @@ void userMenu(Session& currentSession) {
  */
 void adminMenu(Session& currentSession) {
     if (currentSession.access == "unactive") {
-        std::cout << "But your account is not activated yet!" << std::endl;
+        std::cout << "Your account is not activated yet!" << std::endl;
+        std::cout << "Logging out..." << std::endl;
+        pressAnyKeyToContinue();
         currentSession = Session();
         return;
     }
     do {
         int choice;
+        clearConsole();
         std::cout << "Admin menu:" << std::endl;
         std::cout << "1. Account management" << std::endl;
         std::cout << "2. Work with data" << std::endl;
@@ -280,6 +252,7 @@ void adminMenu(Session& currentSession) {
         enterNumber(choice);
         switch (choice) {
             case 1:
+                clearConsole();
                 std::cout << "Account management menu:" << std::endl;
                 std::cout << "1. View all accounts" << std::endl;
                 std::cout << "2. Add new account" << std::endl;
@@ -307,6 +280,7 @@ void adminMenu(Session& currentSession) {
                 }
                 break;
             case 2:
+                clearConsole();
                 std::cout << "Edit data menu:" << std::endl;
                 std::cout << "1. View data" << std::endl;
                 std::cout << "2. Add data" << std::endl;

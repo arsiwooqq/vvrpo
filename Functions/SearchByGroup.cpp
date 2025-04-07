@@ -3,6 +3,7 @@
 #include "Functions.h"
 #include "../Education/Education.h"
 #include "../Menu/Menu.h"
+#include "Instruments/Instruments.h"
 
 void searchByGroup(Session& currentSession) {
     int group;
@@ -23,4 +24,6 @@ void searchByGroup(Session& currentSession) {
     if (!found) {
         std::cout << "No students found in group: " << group << std::endl;
     }
+
+    pressAnyKeyToContinue();
 }

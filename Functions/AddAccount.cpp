@@ -3,6 +3,7 @@
 #include <vector>
 #include "Functions.h"
 #include "../User/User.h"
+#include "Instruments/Instruments.h"
 
 void addAccount(Session& currentSession) {
     std::string login, password, role;
@@ -10,8 +11,7 @@ void addAccount(Session& currentSession) {
     std::cin >> login;  
     std::cout << "Enter password: " << std::endl;
     std::cin >> password;
-    std::cout << "Enter role (user/admin): " << std::endl;
-    std::cin >> role;
+    selectRole(role);
 
     try {
         regUser(login, password, role, true);
@@ -19,4 +19,6 @@ void addAccount(Session& currentSession) {
     } catch (const std::string& e) {
         std::cout << e << std::endl;
     }
+
+    pressAnyKeyToContinue();
 }

@@ -19,10 +19,8 @@ void addStudent(Session& currentSession) {
     enterNumber(groupNumber);
     std::cout << "Enter education form (Budget/Paid): ";
     std::cin >> educationForm;
-    std::cout << "Is active? (1/0): ";
-    int activeChoice;
-    enterNumber(activeChoice);
-    isActive = activeChoice == 1;
+    std::cout << "Is active? (yes/no): ";
+    isActive = selectYesNo();
     
     std::map<std::string, int> marks = enterMarks();
     std::map<std::string, bool> credits = enterCredits();
@@ -32,4 +30,5 @@ void addStudent(Session& currentSession) {
     writeStudent(student);
 
     std::cout << "Student added successfully!" << std::endl;
+    pressAnyKeyToContinue();
 }

@@ -1,45 +1,9 @@
-101
-John Doe
-Budget
-1
-Biology 9 Chemistry 8 Math 9 Physics 8 
-Biology 1 Chemistry 1 Math 1 Physics 1 
-102
-Jane Smith
-Paid
-1
-Biology 8 Chemistry 7 Math 7 Physics 8 
-Biology 0 Chemistry 0 Math 0 Physics 0 
-103
-Michael Johnson
-Budget
-1
-Biology 9 Chemistry 9 Math 9 Physics 8 
-Biology 1 Chemistry 1 Math 1 Physics 1 
-105
-Robert Brown
-Paid
-1
-Biology 8 Chemistry 8 Math 8 Physics 8 
-Biology 1 Chemistry 0 Math 1 Physics 1 
 106
 Sarah Wilson
 Budget
 1
 Biology 9 Chemistry 9 Math 9 Physics 9 
 Biology 1 Chemistry 1 Math 1 Physics 1 
-107
-David Martinez
-Paid
-1
-Biology 8 Chemistry 7 Math 7 Physics 8 
-Biology 1 Chemistry 1 Math 1 Physics 1 
-108
-Laura Garcia
-Budget
-1
-Biology 9 Chemistry 8 Math 8 Physics 8 
-Biology 1 Chemistry 1 Math 1 Physics 0 
 109
 James Anderson
 Paid
@@ -52,9 +16,39 @@ Budget
 1
 Cooking 8 Maths 10 Phys 10 Trud 7 
 Cooking 0 Maths 1 Phys 0 Trud 1 
-0
-Abram
-
-0
- 1 
- 1 
+103
+Michael Johnson
+Budget
+1
+Biology 9 Chemistry 9 Math 9 Physics 8 
+Biology 1 Chemistry 1 Math 1 Physics 1 
+101
+John Doe
+Budget
+1
+Biology 9 Chemistry 8 Math 9 Physics 8 
+Biology 1 Chemistry 1 Math 1 Physics 1 
+108
+Laura Garcia
+Budget
+1
+Biology 9 Chemistry 8 Math 8 Physics 8 
+Biology 1 Chemistry 1 Math 1 Physics 0 
+105
+Robert Brown
+Paid
+1
+Biology 8 Chemistry 8 Math 8 Physics 8 
+Biology 1 Chemistry 0 Math 1 Physics 1 
+107
+David Martinez
+Paid
+1
+Biology 8 Chemistry 7 Math 7 Physics 8 
+Biology 1 Chemistry 1 Math 1 Physics 1 
+102
+Jane Smith
+Paid
+1
+Biology 8 Chemistry 7 Math 7 Physics 8 
+Biology 0 Chemistry 0 Math 0 Physics 0 

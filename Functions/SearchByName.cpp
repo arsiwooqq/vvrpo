@@ -2,6 +2,7 @@
 #include <vector>
 #include "Functions.h"
 #include "../Education/Education.h"
+#include "Instruments/Instruments.h"
 
 void searchByName(Session& currentSession) {
     std::string name;
@@ -13,7 +14,7 @@ void searchByName(Session& currentSession) {
     bool found = false;
     
     for (const auto& student : students) {
-        if (student.fullName.find(name) != std::string::npos) {
+        if (toLowerCase(student.fullName).find(toLowerCase(name)) != std::string::npos) {
             std::cout << "Found: " << student.fullName 
                       << ", Group: " << student.groupNumber 
                       << ", Form: " << student.educationForm << std::endl;
@@ -23,4 +24,6 @@ void searchByName(Session& currentSession) {
     if (!found) {
         std::cout << "No students found with name: " << name << std::endl;
     }
+
+    pressAnyKeyToContinue();
 }

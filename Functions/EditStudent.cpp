@@ -8,6 +8,7 @@
 #include "../Menu/Menu.h"
 
 void editStudentMenu(int& choice) {
+    clearConsole();
     std::cout << "Edit student menu:" << std::endl;
     std::cout << "1. Edit full name" << std::endl;
     std::cout << "2. Edit group number" << std::endl;
@@ -19,33 +20,55 @@ void editStudentMenu(int& choice) {
     enterNumber(choice);
 }
 
-void editStudentFullName() {
-
+void editStudentFullName(std::vector <Student> &students, Student &student) {
+    std::string newFullName;
+    std::cout << "Enter full name: ";
+    std::cin.ignore();
+    std::getline(std::cin, newFullName);
+    student.fullName = newFullName;
+    writeStudents(students);
 }
 
-void editStudentGroupNumber() {
-
+void editStudentGroupNumber(std::vector <Student> &students, Student &student) {
+    int newGroupNumber;
+    std::cout << "Enter group: ";
+    enterNumber(newGroupNumber);
+    student.groupNumber = newGroupNumber;
+    writeStudents(students);
 }
 
-void editStudentEducationForm() {
-
+void editStudentEducationForm(std::vector <Student> &students, Student &student) {
+    std::string newEducationForm;
+    std::cout << "Enter education form (Budget/Paid): ";
+    enterEducationForm(newEducationForm);
+    student.educationForm = newEducationForm;
+    writeStudents(students);
 }
 
-void editStudentActiveness() {
-
+void editStudentActiveness(std::vector <Student> &students, Student &student) {
+    bool isActive;
+    std::cout << "Enter activeness (yes/no): ";
+    std::cin.ignore();
+    student.isActive = selectYesNo();
+    writeStudents(students);
 }
 
-void editStudentMarks() {
-
+void editStudentMarks(std::vector <Student> &students, Student &student) {
+    student.marks = enterMarks();
+    writeStudents(students);
 }
 
-void editStudentCredits() {
-    
+void editStudentCredits(std::vector <Student> &students, Student &student) {
+    student.credits = enterCredits();
+    writeStudents(students);
 }
 
 void editStudent(Session& currentSession) {
     int choice;
     editStudentMenu(choice);
+    if (choice == 0) {
+        return;
+    }
     std::string name;
     std::cout << "Enter name: ";
     std::cin.ignore();
@@ -59,22 +82,22 @@ void editStudent(Session& currentSession) {
             found = true;
             switch(choice) {
                 case 1:
-                    editStudentFullName();
+                    editStudentFullName(students, student);
                     break;
                 case 2:
-                    editStudentGroupNumber();
+                    editStudentGroupNumber(students, student);
                     break;
                 case 3:
-                    editStudentEducationForm();
+                    editStudentEducationForm(students, student);
                     break;
                 case 4:
-                    editStudentActiveness();
+                    editStudentActiveness(students, student);
                     break;
                 case 5:
-                    editStudentMarks();
+                    editStudentMarks(students, student);
                     break;
                 case 6:
-                    editStudentCredits();
+                    editStudentCredits(students, student);
                     break;
                 case 0:
                     return;
@@ -82,8 +105,14 @@ void editStudent(Session& currentSession) {
                     std::cout << "Enter correct number!" << std::endl;
                     break;
             }
+            std::cout << "Student updated successfully!" << std::endl;
+            break;
         }
     }
 
-    writeStudents(students);
+    if (!found) {
+        std::cout << "Student not found!" << std::endl;
+    }
+
+    pressAnyKeyToContinue();
 }

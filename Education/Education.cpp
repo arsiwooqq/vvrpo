@@ -6,6 +6,7 @@
 #include <functional>
 #include "Education.h"
 #include "../User/User.h"
+#include "../Functions/Instruments/Instruments.h"
 
 std::map<std::string, int> readMarks(std::ifstream& file) {
     std::map<std::string, int> marks;
@@ -96,7 +97,7 @@ double calculateScholarship(Student student, double baseScholarship) {
 	bool isCredited = isCredit(student.credits);
 	double ball = average(student.marks, isExcellent);
 
-	if (student.educationForm == "Paid" || ball <= 5 || !isCredited) {
+	if (toLowerCase(student.educationForm) == "paid" || ball <= 5 || !isCredited) {
 		return 0;
 	}
 
