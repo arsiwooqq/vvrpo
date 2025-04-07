@@ -44,6 +44,7 @@ void welcome(Session currentSession) {
  */
 void greeting(Session& currentSession) {
     if (!fileExists(USER_DATABASE)) {
+        clearConsole();
         std::cout << "It seems you're running this application for the first time.\nLet's register an account for you!" << std::endl;
 
         do {
@@ -69,6 +70,9 @@ void greeting(Session& currentSession) {
  */
 void authMenu(Session& currentSession) {
     greeting(currentSession);
+    if (isAuthorized(currentSession)) {
+        return;
+    }
     int choice;
     do {
         std::string login, password, role;
