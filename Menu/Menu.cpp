@@ -16,7 +16,7 @@ void loginMenu(int& choice) {
     std::cout << "Menu:" << std::endl;
     std::cout << "1. Login" << std::endl;
     std::cout << "2. Register" << std::endl;
-    std::cout << "3. Exit" << std::endl;
+    std::cout << "0. Exit" << std::endl;
     std::cout << "Enter your choice: ";
     enterNumber(choice);
 }
@@ -104,14 +104,16 @@ void authMenu(Session& currentSession) {
                     std::cout << e << std::endl;
                     pressAnyKeyToContinue();
                 }
-
                 break;
 
-            case 3:
+            case 0:
                 exit(0);
+                break;
             
             default: 
                 std::cout << "Enter correct number!" << std::endl;
+                pressAnyKeyToContinue();
+                break;
         }
     } while (!isAuthorized(currentSession));
 }
@@ -168,48 +170,55 @@ void userMenu(Session& currentSession) {
                 break;
     
             case 3:
-                searchMenu(choice);
-                switch (choice) {
-                    case 1:
-                        searchByName(currentSession);
-                        break;
-                    case 2:
-                        searchByGroup(currentSession);
-                        break;
-                    case 3:
-                        searchByMark(currentSession);
-                        break;
-                    case 0:
-                        break;
-                    default:
-                        std::cout << "Enter correct number!" << std::endl;
-                        break;
-                }
+                do {
+                    searchMenu(choice);
+                    switch (choice) {
+                        case 1:
+                            searchByName(currentSession);
+                            break;
+                        case 2:
+                            searchByGroup(currentSession);
+                            break;
+                        case 3:
+                            searchByMark(currentSession);
+                            break;
+                        case 0:
+                            break;
+                        default:
+                            std::cout << "Enter correct number!" << std::endl;
+                            pressAnyKeyToContinue();
+                            break;
+                    }
+                } while (choice != 0);
                 break;
             case 4:
-                sortMenu(choice);
-                switch (choice) {
-                    case 1:
-                        sortByName(currentSession);
-                        break;
-                    case 2:
-                        sortByGroup(currentSession);
-                        break;
-                    case 3:
-                        sortByMark(currentSession);
-                        break;
-                    case 0:
-                        break;
-                    default:
-                        std::cout << "Enter correct number!" << std::endl;
-                        break;
-                }
+                do {
+                    sortMenu(choice);
+                    switch (choice) {
+                        case 1:
+                            sortByName(currentSession);
+                            break;
+                        case 2:
+                            sortByGroup(currentSession);
+                            break;
+                        case 3:
+                            sortByMark(currentSession);
+                            break;
+                        case 0:
+                            break;
+                        default:
+                            std::cout << "Enter correct number!" << std::endl;
+                            pressAnyKeyToContinue();
+                            break;
+                    }
+                } while (choice != 0);
                 break;
             case 0: 
                 currentSession = Session();
                 return;
             default:
                 std::cout << "Enter correct number!" << std::endl;
+                pressAnyKeyToContinue();
         }
     } while (true);
 }
@@ -234,111 +243,120 @@ void adminMenu(Session& currentSession) {
         enterNumber(choice);
         switch (choice) {
             case 1:
-                clearConsole();
-                std::cout << "Account management menu:" << std::endl;
-                std::cout << "1. View all accounts" << std::endl;
-                std::cout << "2. Add new account" << std::endl;
-                std::cout << "3. Edit account" << std::endl;
-                std::cout << "4. Delete account" << std::endl;
-                std::cout << "0. Back" << std::endl;
-                enterNumber(choice);
-                switch (choice) {
-                    case 1:
-                        outputAccounts(currentSession);
-                        break;
-                    case 2:
-                        addAccount(currentSession);
-                        break;
-                    case 3:
-                        editAccount(currentSession);
-                        break;
-                    case 4:
-                        deleteAccount(currentSession);
-                        break;
-                    case 0:
-                        break;
-                    default:
-                        std::cout << "Enter correct number!" << std::endl;
-                }
+                do {
+                    clearConsole();
+                    std::cout << "Account management menu:" << std::endl;
+                    std::cout << "1. View all accounts" << std::endl;
+                    std::cout << "2. Add new account" << std::endl;
+                    std::cout << "3. Edit account" << std::endl;
+                    std::cout << "4. Delete account" << std::endl;
+                    std::cout << "0. Back" << std::endl;
+                    enterNumber(choice);
+                    switch (choice) {
+                        case 1:
+                            outputAccounts(currentSession);
+                            break;
+                        case 2:
+                            addAccount(currentSession);
+                            break;
+                        case 3:
+                            editAccount(currentSession);
+                            break;
+                        case 4:
+                            deleteAccount(currentSession);
+                            break;
+                        case 0:
+                            break;
+                        default:
+                            std::cout << "Enter correct number!" << std::endl;
+                            pressAnyKeyToContinue();
+                    }
+                } while (choice != 0);
                 break;
             case 2:
-                clearConsole();
-                std::cout << "Edit data menu:" << std::endl;
-                std::cout << "1. View data" << std::endl;
-                std::cout << "2. Add data" << std::endl;
-                std::cout << "3. Edit data" << std::endl;
-                std::cout << "4. Delete data" << std::endl;
-                std::cout << "5. Calculate scholarship" << std::endl;
-                std::cout << "6. Search data" << std::endl;
-                std::cout << "7. Sort data" << std::endl;
-                std::cout << "0. Back" << std::endl;
-                enterNumber(choice);
-                switch(choice) {
-                    case 1:
-                        outputStudents(currentSession);
-                        break;
-                    case 2:
-                        addStudent(currentSession);
-                        break;
-                    case 3:
-                        editStudent(currentSession);
-                        break;
-                    case 4:
-                        deleteStudent(currentSession);
-                        break;
-                    case 5:
-                        double baseScholarship;
-                        std::cout << "Enter scholarship" << std::endl;
-                        enterNumber(baseScholarship);
-                        outputScholarship(currentSession, baseScholarship);
-                        break;
-                    case 6:
-                        searchMenu(choice);
-                        switch (choice) {
-                            case 1:
-                                searchByName(currentSession);
-                                break;
-                            case 2:
-                                searchByGroup(currentSession);
-                                break;
-                            case 3:
-                                searchByMark(currentSession);
-                                break;
-                            case 0:
-                                break;
-                            default:
-                                std::cout << "Enter correct number!" << std::endl;
-                        }
-                        break;
-                    case 7:
-                        sortMenu(choice);
-                        switch (choice) {
-                            case 1:
-                                sortByName(currentSession);
-                                break;
-                            case 2:
-                                sortByGroup(currentSession);
-                                break;
-                            case 3:
-                                sortByMark(currentSession);
-                                break;
-                            case 0:
-                                break;
-                            default:
-                                std::cout << "Enter correct number!" << std::endl;
-                        }
-                        break;
-                    case 0:
-                        break;
-                    default:
-                        std::cout << "Enter correct number!" << std::endl;
-                }
+                do {
+                    clearConsole();
+                    std::cout << "Edit data menu:" << std::endl;
+                    std::cout << "1. View data" << std::endl;
+                    std::cout << "2. Add data" << std::endl;
+                    std::cout << "3. Edit data" << std::endl;
+                    std::cout << "4. Delete data" << std::endl;
+                    std::cout << "5. Calculate scholarship" << std::endl;
+                    std::cout << "6. Search data" << std::endl;
+                    std::cout << "7. Sort data" << std::endl;
+                    std::cout << "0. Back" << std::endl;
+                    enterNumber(choice);
+                    switch(choice) {
+                        case 1:
+                            outputStudents(currentSession);
+                            break;
+                        case 2:
+                            addStudent(currentSession);
+                            break;
+                        case 3:
+                            editStudent(currentSession);
+                            break;
+                        case 4:
+                            deleteStudent(currentSession);
+                            break;
+                        case 5:
+                            double baseScholarship;
+                            std::cout << "Enter scholarship" << std::endl;
+                            enterNumber(baseScholarship);
+                            outputScholarship(currentSession, baseScholarship);
+                            break;
+                        case 6:
+                            searchMenu(choice);
+                            switch (choice) {
+                                case 1:
+                                    searchByName(currentSession);
+                                    break;
+                                case 2:
+                                    searchByGroup(currentSession);
+                                    break;
+                                case 3:
+                                    searchByMark(currentSession);
+                                    break;
+                                case 0:
+                                    break;
+                                default:
+                                    std::cout << "Enter correct number!" << std::endl;
+                                    pressAnyKeyToContinue();
+                            }
+                            break;
+                        case 7:
+                            sortMenu(choice);
+                            switch (choice) {
+                                case 1:
+                                    sortByName(currentSession);
+                                    break;
+                                case 2:
+                                    sortByGroup(currentSession);
+                                    break;
+                                case 3:
+                                    sortByMark(currentSession);
+                                    break;
+                                case 0:
+                                    break;
+                                default:
+                                    std::cout << "Enter correct number!" << std::endl;
+                                    pressAnyKeyToContinue();
+                            }
+                            break;
+                        case 0:
+                            break;
+                        default:
+                            std::cout << "Enter correct number!" << std::endl;
+                            pressAnyKeyToContinue();
+                    }
+                } while (choice != 0);
                 break;
             case 0: 
                 currentSession = Session();
                 return;
             default:
                 std::cout << "Enter correct number!" << std::endl;
+                pressAnyKeyToContinue();
         }
     } while (true);
 }

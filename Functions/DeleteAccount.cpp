@@ -13,6 +13,7 @@ void deleteAccount(Session&) {
 
     if (!checkDeletionPossibility(login)) {
         std::cout << "You can not delete last admin!" << std::endl;
+        pressAnyKeyToContinue();
         return;
     }
     

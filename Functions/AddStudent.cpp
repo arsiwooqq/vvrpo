@@ -17,7 +17,7 @@ void addStudent(Session& currentSession) {
     std::cout << "Enter group number: ";
     enterNumber(groupNumber);
     std::cout << "Enter education form (Budget/Paid): ";
-    std::getline(std::cin, educationForm);
+    enterEducationForm(educationForm);
     std::cout << "Is active? (yes/no): ";
     isActive = selectYesNo();
     

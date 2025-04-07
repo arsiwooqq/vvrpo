@@ -26,6 +26,11 @@ void editAccountPassword(User &user) {
 }
 
 void editAccountRole(std::vector<User> &users, User &user) {
+    if (!checkDeletionPossibility(user.login)) {
+        std::cout << "You can not change the role of the last admin!" << std::endl;
+        pressAnyKeyToContinue();
+        return;
+    }
     std::string newRole;
     selectRole(newRole);
     user.role = newRole;
@@ -45,10 +50,6 @@ void deactivateAccount(std::vector<User> &users, User &user) {
 
 void editAccount(Session& currentSession) {
     int choice;
-    editAccountMenu(choice);
-    if (choice == 0) {
-        return;
-    }
     std::string login;
     std::cout << "Enter login: ";
     std::getline(std::cin, login);
@@ -58,26 +59,30 @@ void editAccount(Session& currentSession) {
     for (User& user : users) {
         if (login == user.login) {
             found = true;
-            switch(choice) {
-                case 1:
-                    editAccountPassword(user);
-                    break;
-                case 2:
-                    editAccountRole(users, user);
-                    break;
-                case 3:
-                    activateAccount(users, user);
-                    break;
-                case 4:
-                    deactivateAccount(users, user);
-                    break;
-                case 0:
-                    return;
-                    break;
-                default:
-                    std::cout << "Enter correct number!" << std::endl;
-                    break;
-            }
+            do {
+                editAccountMenu(choice);
+                switch(choice) {
+                     case 1:
+                        editAccountPassword(user);
+                        break;
+                    case 2:
+                        editAccountRole(users, user);
+                        break;
+                    case 3:
+                        activateAccount(users, user);
+                        break;
+                    case 4:
+                        deactivateAccount(users, user);
+                        break;
+                    case 0:
+                        return;
+                        break;
+                    default:
+                        std::cout << "Enter correct number!" << std::endl;
+                        pressAnyKeyToContinue();
+                        break;
+                }
+            } while (choice != 0);
             std::cout << "Account updated successfully!" << std::endl;
             break;
         }
