@@ -16,3 +16,4 @@ void clearConsole();
 void pressAnyKeyToContinue();
 void selectRole(std::string& role);
 void enterNumber(int& number);
+void enterNumber(double& number);

@@ -13,12 +13,11 @@ void addStudent(Session& currentSession) {
     bool isActive;
     
     std::cout << "Enter full name: ";
-    std::cin.ignore();
     std::getline(std::cin, fullName);
     std::cout << "Enter group number: ";
     enterNumber(groupNumber);
     std::cout << "Enter education form (Budget/Paid): ";
-    std::cin >> educationForm;
+    std::getline(std::cin, educationForm);
     std::cout << "Is active? (yes/no): ";
     isActive = selectYesNo();
     

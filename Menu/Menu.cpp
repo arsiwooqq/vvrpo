@@ -8,29 +8,6 @@
 
 const std::string BASE_SCHOLARSHIP = "base_scholarship.txt";
 
-void enterNumber(double& number) {
-    do {
-        std::cin >> number;
-        if (std::cin.fail()) {
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            std::cout << "Invalid input! Please enter a valid number." << std::endl;
-        } else {
-            break;
-        }
-    } while (true);
-}
-
-void enterScholarship(double& scholarship) {
-    std::cout << "Enter scholarship:";
-    std::cin >> scholarship;
-    if (std::cin.fail()) {
-        std::cin.clear();
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::cout << "Invalid input. Please enter a number!" << std::endl;
-    }
-}
-
 /**
  * Меню для авторизации 
  */
@@ -49,9 +26,9 @@ void loginMenu(int& choice) {
  */
 void enterLoginAndPassword(std::string& login, std::string& password) {
     std::cout << "Enter login: " ;
-    std::cin >> login;
+    std::getline(std::cin, login);
     std::cout << "Enter password: ";
-    std::cin >> password;
+    std::getline(std::cin, password);
 }
 
 /**
@@ -181,7 +158,8 @@ void userMenu(Session& currentSession) {
     
             case 2:
                 double baseScholarship;
-                enterScholarship(baseScholarship);
+                std::cout << "Enter scholarship: " << std::endl;
+                enterNumber(baseScholarship);
                 outputScholarship(currentSession, baseScholarship);
                 break;
     
@@ -306,7 +284,8 @@ void adminMenu(Session& currentSession) {
                         break;
                     case 5:
                         double baseScholarship;
-                        enterScholarship(baseScholarship);
+                        std::cout << "Enter scholarship" << std::endl;
+                        enterNumber(baseScholarship);
                         outputScholarship(currentSession, baseScholarship);
                         break;
                     case 6:

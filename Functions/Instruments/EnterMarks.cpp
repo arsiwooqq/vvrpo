@@ -12,7 +12,6 @@ std::map<std::string, int> enterMarks() {
         std::string subject;
         int mark;
         std::cout << "Subject " << i + 1 << ": ";
-        std::cin.ignore();
         std::getline(std::cin, subject);
         std::cout << "Mark: ";
         enterNumber(mark);

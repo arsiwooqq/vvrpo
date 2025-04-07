@@ -8,7 +8,6 @@
 void deleteStudent(Session&) {
     std::string name;
     std::cout << "Enter student name to delete: ";
-    std::cin.ignore();
     std::getline(std::cin, name);
 
     std::vector<Student> students = getStudents();

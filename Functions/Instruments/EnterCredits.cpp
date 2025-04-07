@@ -10,13 +10,9 @@ std::map<std::string, bool> enterCredits() {
     std::cout << "Enter 4 credits:" << std::endl;
     for (int i = 0; i < 4; i++) {
         std::string subject;
-        bool isCredited;
-        std::string newCredit;
         std::cout << "Subject " << i + 1 << ": ";
-        std::cin.ignore();
         std::getline(std::cin, subject);
-        std::cout << "Is credited (yes/no):" << std::endl;
-        std::cin.ignore();
+        std::cout << "Is credited (yes/no):";
         credits[subject] = selectYesNo();
     }
     std::cout << "\nEntered credits:" << std::endl;

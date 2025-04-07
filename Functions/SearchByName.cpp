@@ -7,7 +7,6 @@
 void searchByName(Session& currentSession) {
     std::string name;
     std::cout << "Enter name to search: ";
-    std::cin.ignore();
     std::getline(std::cin, name);
     
     std::vector<Student> students = getStudents();

@@ -8,9 +8,9 @@
 void addAccount(Session& currentSession) {
     std::string login, password, role;
     std::cout << "Enter login: " << std::endl;
-    std::cin >> login;  
+    std::getline(std::cin, login);
     std::cout << "Enter password: " << std::endl;
-    std::cin >> password;
+    std::getline(std::cin, password);
     selectRole(role);
 
     try {

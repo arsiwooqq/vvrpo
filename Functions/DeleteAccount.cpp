@@ -9,7 +9,7 @@
 void deleteAccount(Session&) {
     std::string login;
     std::cout << "Enter login of account to delete: ";
-    std::cin >> login;
+    std::getline(std::cin, login);
 
     if (!checkDeletionPossibility(login)) {
         std::cout << "You can not delete last admin!" << std::endl;

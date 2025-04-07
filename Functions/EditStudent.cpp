@@ -23,7 +23,6 @@ void editStudentMenu(int& choice) {
 void editStudentFullName(std::vector <Student> &students, Student &student) {
     std::string newFullName;
     std::cout << "Enter full name: ";
-    std::cin.ignore();
     std::getline(std::cin, newFullName);
     student.fullName = newFullName;
     writeStudents(students);
@@ -48,7 +47,6 @@ void editStudentEducationForm(std::vector <Student> &students, Student &student)
 void editStudentActiveness(std::vector <Student> &students, Student &student) {
     bool isActive;
     std::cout << "Enter activeness (yes/no): ";
-    std::cin.ignore();
     student.isActive = selectYesNo();
     writeStudents(students);
 }
@@ -71,7 +69,6 @@ void editStudent(Session& currentSession) {
     }
     std::string name;
     std::cout << "Enter name: ";
-    std::cin.ignore();
     std::getline(std::cin, name);
     
     std::vector<Student> students = getStudents();

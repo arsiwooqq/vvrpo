@@ -21,7 +21,7 @@ void editAccountMenu(int& choice) {
 void editAccountPassword(User &user) {
     std::string newPassword;
     std::cout << "Enter new password: ";
-    std::cin >> newPassword;
+    std::getline(std::cin, newPassword);
     editPassword(user.login, newPassword);
 }
 
@@ -51,7 +51,7 @@ void editAccount(Session& currentSession) {
     }
     std::string login;
     std::cout << "Enter login: ";
-    std::cin >> login;
+    std::getline(std::cin, login);
     
     std::vector<User> users = getUsers();
     bool found = false;
