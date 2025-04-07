@@ -47,8 +47,20 @@ Budget
 Biology 9 Chemistry 9 Math 9 Physics 9 
 Biology 1 Chemistry 1 Math 1 Physics 1 
 418101
-John Bobrik
+Johnson Bobrik
 budget
 0
 Math1 1 Math2 2 Math3 3 Math4 4 
 Math1 1 Math2 0 Math3 1 Math4 1 
+100
+бегляк
+budget
+1
+два 2 один 1 три 3 четыре 4 
+3 1 4 1 два 0 один 1 
+418104
+nikitabalkon
+budget
+1
+atronomy 7 bio 8 geo 5 math 10 
+astronomy 1 bio 1 geo 1 math 1 

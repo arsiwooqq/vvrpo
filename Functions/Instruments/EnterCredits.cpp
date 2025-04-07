@@ -15,11 +15,5 @@ std::map<std::string, bool> enterCredits() {
         std::cout << "Is credited (yes/no):";
         credits[subject] = selectYesNo();
     }
-    std::cout << "\nEntered credits:" << std::endl;
-    for (const auto& credit : credits) {
-        std::cout << "Subject: " << credit.first 
-                  << ", Credited: " << (credit.second ? "Yes" : "No") 
-                  << std::endl;
-    }
     return credits;
 }
