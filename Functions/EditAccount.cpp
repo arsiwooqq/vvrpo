@@ -66,45 +66,52 @@ void deactivateAccount(std::vector<User> &users, User &user) {
 }
 
 void editAccount(Session& currentSession) {
-    int choice;
-    std::string login;
-    std::cout << "Enter login: ";
-    std::getline(std::cin, login);
-    
-    std::vector<User> users = getUsers();
-    bool found = false;
-    for (User& user : users) {
-        if (login == user.login) {
-            found = true;
-            do {
-                editAccountMenu(choice);
-                switch(choice) {
-                     case 1:
-                        editAccountPassword(user);
-                        break;
-                    case 2:
-                        editAccountRole(users, user);
-                        break;
-                    case 3:
-                        activateAccount(users, user);
-                        break;
-                    case 4:
-                        deactivateAccount(users, user);
-                        break;
-                    case 0:
-                        return;
-                        break;
-                    default:
-                        std::cout << "Enter correct number!" << std::endl;
-                        pressAnyKeyToContinue();
-                        break;
-                }
-            } while (choice != 0);
-            break;
+    if (currentSession.role == "admin") {
+        int choice;
+        std::string login;
+        std::cout << "Enter login: ";
+        std::getline(std::cin, login);
+        
+        std::vector<User> users = getUsers();
+        bool found = false;
+        for (User& user : users) {
+            if (login == user.login) {
+                found = true;
+                do {
+                    editAccountMenu(choice);
+                    switch(choice) {
+                         case 1:
+                            editAccountPassword(user);
+                            break;
+                        case 2:
+                            editAccountRole(users, user);
+                            break;
+                        case 3:
+                            activateAccount(users, user);
+                            break;
+                        case 4:
+                            deactivateAccount(users, user);
+                            break;
+                        case 0:
+                            return;
+                            break;
+                        default:
+                            std::cout << "Enter correct number!" << std::endl;
+                            pressAnyKeyToContinue();
+                            break;
+                    }
+                } while (choice != 0);
+                break;
+            }
         }
-    }
-    
-    if (!found) {
-        std::cout << "Account not found!" << std::endl;
+        
+        if (!found) {
+            std::cout << "Account not found!" << std::endl;
+            pressAnyKeyToContinue();
+
+        }
+    } else {
+        std::cout << "You don't have access to this function!" << std::endl;
+        pressAnyKeyToContinue();
     }
 }

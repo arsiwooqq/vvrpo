@@ -3,19 +3,15 @@
 
 bool selectYesNo() {
     std::string inputStr;
-    bool answer = false;
-
-    while (inputStr != "y" && inputStr != "n" && inputStr != "yes" && inputStr != "no") {
+    while (true) {
         std::getline(std::cin, inputStr);
         inputStr = toLowerCase(inputStr);
         if (inputStr == "y" || inputStr == "yes") {
-            answer = true;
+            return true;
         } else if (inputStr == "n" || inputStr == "no") {
-            answer = false;
+            return false;
         } else {
             std::cout << "Wrong input! Enter YES or NO" << std::endl;
         }
     }
-
-    return answer;
 }

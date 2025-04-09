@@ -80,51 +80,57 @@ void editStudentCredits(std::vector <Student> &students, Student &student) {
 }
 
 void editStudent(Session& currentSession) {
-    int choice;
-    std::string name;
-    std::cout << "Enter name: ";
-    std::getline(std::cin, name);
-    
-    std::vector<Student> students = getStudents();
-    bool found = false;
-    
-    for (Student& student : students) {
-        if (toLowerCase(name) == toLowerCase(student.fullName)) {
-            found = true;
-            do {
-                editStudentMenu(choice);
-                switch(choice) {
-                    case 1:
-                        editStudentFullName(students, student);
-                        break;
-                    case 2:
-                        editStudentGroupNumber(students, student);
-                        break;
-                    case 3:
-                        editStudentEducationForm(students, student);
-                        break;
-                    case 4:
-                        editStudentActiveness(students, student);
-                        break;
-                    case 5:
-                        editStudentMarks(students, student);
-                        break;
-                    case 6:
-                        editStudentCredits(students, student);
-                        break;
-                    case 0:
-                        return;
-                    default:
-                        std::cout << "Enter correct number!" << std::endl;
-                        pressAnyKeyToContinue();
-                        break;
-                }
-            } while (choice != 0);
-            break;
+    if (currentSession.role == "admin") {
+        int choice;
+        std::string name;
+        std::cout << "Enter name: ";
+        std::getline(std::cin, name);
+        
+        std::vector<Student> students = getStudents();
+        bool found = false;
+        
+        for (Student& student : students) {
+            if (toLowerCase(name) == toLowerCase(student.fullName)) {
+                found = true;
+                do {
+                    editStudentMenu(choice);
+                    switch(choice) {
+                        case 1:
+                            editStudentFullName(students, student);
+                            break;
+                        case 2:
+                            editStudentGroupNumber(students, student);
+                            break;
+                        case 3:
+                            editStudentEducationForm(students, student);
+                            break;
+                        case 4:
+                            editStudentActiveness(students, student);
+                            break;
+                        case 5:
+                            editStudentMarks(students, student);
+                            break;
+                        case 6:
+                            editStudentCredits(students, student);
+                            break;
+                        case 0:
+                            return;
+                        default:
+                            std::cout << "Enter correct number!" << std::endl;
+                            pressAnyKeyToContinue();
+                            break;
+                    }
+                } while (choice != 0);
+                break;
+            }
         }
-    }
 
-    if (!found) {
-        std::cout << "Student not found!" << std::endl;
+        if (!found) {
+            std::cout << "Student not found!" << std::endl;
+            pressAnyKeyToContinue();
+        }
+    } else {
+        std::cout << "You don't have access to this function!" << std::endl;
+        pressAnyKeyToContinue();
     }
 }
